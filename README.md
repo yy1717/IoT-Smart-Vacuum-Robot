@@ -26,14 +26,11 @@ An IoT-based smart vacuum robot project developed using ESP32, sensors, and Node
 ## Project Structure
 
 arduino/
-
 * smart_vacuum_robot.ino
 
 node-red/
-
 * flows.json
 
 images/
-
 * robot.jpg
 * dashboard.png
