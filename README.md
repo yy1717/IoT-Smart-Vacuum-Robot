@@ -18,10 +18,10 @@ An IoT-based smart vacuum robot project developed using ESP32, sensors, and Node
 
 ## Project Preview
 ### Robot Prototype
-![Robot](images/robot.jpg)
+![Robot](images/ROBOT.jpg)
 
 ### Node-RED Dashboard
-![Dashboard](images/dashboard.png)
+![Dashboard](images/NODERED_DASHBOARD.png)
 
 ## Project Structure
 
