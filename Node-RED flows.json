@@ -1,0 +1,900 @@
+[
+    {
+        "id": "8b43cc276c50540b",
+        "type": "tab",
+        "label": "流程 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3a591efd7854958c",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/distance",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 60,
+        "wires": [
+            [
+                "1149ee19b7fcd2d8"
+            ]
+        ]
+    },
+    {
+        "id": "61408daa43394d84",
+        "type": "ui_text",
+        "z": "8b43cc276c50540b",
+        "group": "c2195a43c2287b78",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "LDR Value",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 390,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1149ee19b7fcd2d8",
+        "type": "ui_chart",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "group": "59319c591dd16b41",
+        "order": 1,
+        "width": 6,
+        "height": 4,
+        "label": "📏 Ultrasonic Distance",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#b3c6e5",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "distanceChart",
+        "x": 430,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "50e0be4abf924537",
+        "type": "ui_gauge",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "group": "c2195a43c2287b78",
+        "order": 2,
+        "width": 6,
+        "height": 6,
+        "gtype": "gage",
+        "title": "LDR Brightness",
+        "label": "value",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "4095",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 400,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "22e42b0b998da88c",
+        "type": "debug",
+        "z": "8b43cc276c50540b",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7e6eb965a7e5b20f",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/ldr",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 160,
+        "wires": [
+            [
+                "50e0be4abf924537",
+                "61408daa43394d84"
+            ]
+        ]
+    },
+    {
+        "id": "afa0695633cccb8d",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/cliff",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "dd1e6bdc41439e39"
+            ]
+        ]
+    },
+    {
+        "id": "5a2052a88453dc7d",
+        "type": "ui_text",
+        "z": "8b43cc276c50540b",
+        "group": "12fd058378c3e8fe",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Cliff Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 570,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "dd1e6bdc41439e39",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "Cliff Status",
+        "func": "// Convert all values to string\nlet v = String(msg.payload).trim();\n\n// Debug check\nnode.warn(\"Received Cliff Value: \" + v);\n\n// Danger Conditions\nif (v === \"1\" || v.toLowerCase() === \"true\" || v === \"HIGH\") {\n    msg.payload = \"⚠️ Cliff Detected!\";\n    msg.color = \"red\";\n} else {\n    msg.payload = \"Safe\";\n    msg.color = \"green\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 260,
+        "wires": [
+            [
+                "cc233e8fea35b0b6",
+                "5a2052a88453dc7d"
+            ]
+        ]
+    },
+    {
+        "id": "cc233e8fea35b0b6",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "12fd058378c3e8fe",
+        "name": "Cliff Sensor Status",
+        "order": 1,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align: center;\">\n    <div id=\"cliffStatus\" style=\"font-size: 22px; font-weight: bold; padding: 15px; border-radius: 10px;\">\n        {{payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope) {\n    scope.$watch('msg', function(msg) {\n        if (!msg) return;\n\n        let box = document.getElementById(\"cliffStatus\");\n\n        if (msg.payload === \"⚠️ Cliff Detected!\") {\n            box.style.backgroundColor = \"red\";\n            box.style.color = \"white\";\n        } else {\n            box.style.backgroundColor = \"green\";\n            box.style.color = \"white\";\n        }\n    });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 590,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "34ae4cb6e9c2bce4",
+        "type": "mqtt out",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/cmd",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ab3d235277be7ab",
+        "x": 800,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "8d96d9bafa62ae7f",
+        "type": "ui_button",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "group": "8b4eec86d8d4748c",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "label": "🛑 STOP",
+        "tooltip": "",
+        "color": "RED",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "STOP",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 640,
+        "y": 60,
+        "wires": [
+            [
+                "34ae4cb6e9c2bce4"
+            ]
+        ]
+    },
+    {
+        "id": "091d132371d1f4fc",
+        "type": "ui_button",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "group": "8b4eec86d8d4748c",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "label": "▶ AUTO",
+        "tooltip": "",
+        "color": "GREEN",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "AUTO",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 640,
+        "y": 120,
+        "wires": [
+            [
+                "34ae4cb6e9c2bce4"
+            ]
+        ]
+    },
+    {
+        "id": "5b0718b8652f27d4",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/mode",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 610,
+        "y": 180,
+        "wires": [
+            [
+                "73a1266a78b20d4c"
+            ]
+        ]
+    },
+    {
+        "id": "73a1266a78b20d4c",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "Turn UI ",
+        "func": "let mode = String(msg.payload).trim();\n\nif (mode === \"STOP\") {\n    msg.payload = \"🛑 STOP MODE\";\n    msg.color = \"red\";\n} else {\n    msg.payload = \"🟢 AUTO MODE\";\n    msg.color = \"green\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 180,
+        "wires": [
+            [
+                "ca7249feeedd0ba6"
+            ]
+        ]
+    },
+    {
+        "id": "ca7249feeedd0ba6",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "47c8903b20527668",
+        "name": "UI",
+        "order": 3,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align: center;\">\n    <div id=\"modeStatus\" style=\"font-size: 22px; font-weight: bold; padding: 12px; border-radius: 12px;\">\n        {{msg.payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope){\n    scope.$watch('msg', function(msg){\n        if(!msg) return;\n\n        let box = document.getElementById(\"modeStatus\");\n\n        if(msg.payload.includes(\"STOP\")){\n            box.style.backgroundColor = \"red\";\n            box.style.color = \"white\";\n        } else {\n            box.style.backgroundColor = \"green\";\n            box.style.color = \"white\";\n        }\n    });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 930,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c10b0be836cba066",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 720,
+        "y": 300,
+        "wires": [
+            [
+                "f933ee810ee49b78"
+            ]
+        ]
+    },
+    {
+        "id": "f933ee810ee49b78",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "Robot State",
+        "func": "let s = String(msg.payload || \"\").trim();\n\n// 如果 payload 是空的，直接 return，不要更新 UI\nif (s === \"\") return null;\n\n// Debug\nnode.warn(\"Robot state raw: \" + s);\n\nswitch (s) {\n    case \"FORWARD\":\n        msg.payload = \"Moving Forward\";\n        msg.color = \"#4caf50\";\n        break;\n\n    case \"REVERSING\":\n        msg.payload = \"Reversing\";\n        msg.color = \"#ff9800\";\n        break;\n\n    case \"TURNING\":\n        msg.payload = \"Turning\";\n        msg.color = \"#ffb74d\";\n        break;\n\n    case \"STOP_CLIFF\":\n        msg.payload = \"Stopped (Cliff Detected)\";\n        msg.color = \"#f44336\";\n        break;\n\n    case \"STOP_TILT\":\n        msg.payload = \"Stopped (Tilt Detected)\";\n        msg.color = \"#e53935\";\n        break;\n\n    case \"STOP_EMERGENCY\":\n        msg.payload = \"Emergency Stop\";\n        msg.color = \"#d32f2f\";\n        break;\n\n    default:\n        return null;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 300,
+        "wires": [
+            [
+                "f90da3699b023432"
+            ]
+        ]
+    },
+    {
+        "id": "f90da3699b023432",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "47c8903b20527668",
+        "name": "Robot State",
+        "order": 1,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align:center;\">\n    <div id=\"robotState\" style=\"font-size:22px;font-weight:bold;padding:20px;border-radius:10px;color:white;\">\n        {{msg.payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope){\n  scope.$watch('msg', function(msg){\n    if (!msg) return;\n    let box = document.getElementById(\"robotState\");\n    box.style.backgroundColor = msg.color || \"#444\";\n  });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1070,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "24c5451e21f2185f",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "LED State",
+        "topic": "robot/led",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 720,
+        "y": 360,
+        "wires": [
+            [
+                "78b4cc269c45daa2"
+            ]
+        ]
+    },
+    {
+        "id": "6f6d6724e69c4c19",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "Buzzer State",
+        "topic": "robot/buzzer",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 730,
+        "y": 420,
+        "wires": [
+            [
+                "0cffdff597d66c92"
+            ]
+        ]
+    },
+    {
+        "id": "78b4cc269c45daa2",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "LED",
+        "func": "let s = String(msg.payload).trim();\nmsg.color = (s === \"ON\") ? \"yellow\" : \"#444\";\nmsg.payload = (s === \"ON\") ? \"💡 LED ON\" : \"LED OFF\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 360,
+        "wires": [
+            [
+                "5c21ffa6613549eb"
+            ]
+        ]
+    },
+    {
+        "id": "0cffdff597d66c92",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "Buzzer",
+        "func": "let s = String(msg.payload).trim();\nmsg.color = (s === \"ON\") ? \"red\" : \"#444\";\nmsg.payload = (s === \"ON\") ? \"🔔 Buzzer ON\" : \"Buzzer OFF\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 420,
+        "wires": [
+            [
+                "a948cb70aebade05"
+            ]
+        ]
+    },
+    {
+        "id": "5c21ffa6613549eb",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "808c3b7f06c0a6e9",
+        "name": "LED",
+        "order": 1,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align: center;\">\n    <div id=\"ledStatus\" style=\"font-size: 20px; font-weight: bold; padding: 13px; border-radius: 10px;\">\n        {{msg.payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope){\n   scope.$watch('msg', function(msg){\n     if(!msg) return;\n     let box = document.getElementById('ledStatus');\n     box.style.backgroundColor = msg.color;\n     box.style.color = \"white\";\n   })\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1010,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a948cb70aebade05",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "808c3b7f06c0a6e9",
+        "name": "Buzzer",
+        "order": 2,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align: center;\">\n    <div id=\"buzzerStatus\" style=\"font-size: 20px; font-weight: bold; padding: 13px; border-radius: 10px;\">\n        {{msg.payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope){\n   scope.$watch('msg', function(msg){\n     if(!msg) return;\n     let box = document.getElementById('buzzerStatus');\n     box.style.backgroundColor = msg.color;\n     box.style.color = \"white\";\n   })\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1060,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7aa29e790a6bd44c",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "Robot Runtime",
+        "topic": "robot/runtime",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 440,
+        "wires": [
+            [
+                "d15ab36d8baf04bc"
+            ]
+        ]
+    },
+    {
+        "id": "d15ab36d8baf04bc",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "Robot Runtime",
+        "func": "let sec = parseInt(msg.payload);\nif (isNaN(sec)) sec = 0;\n\nlet hours = Math.floor(sec / 3600);\nlet minutes = Math.floor((sec % 3600) / 60);\nlet seconds = sec % 60;\n\nlet h = hours.toString().padStart(2, '0');\nlet m = minutes.toString().padStart(2, '0');\nlet s = seconds.toString().padStart(2, '0');\n\nmsg.payload = `Active for ${h}:${m}:${s}`;\nmsg.color = \"#2196F3\"; // 蓝色\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 500,
+        "wires": [
+            [
+                "69d0cae33269dc93"
+            ]
+        ]
+    },
+    {
+        "id": "69d0cae33269dc93",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "47c8903b20527668",
+        "name": "Robot Runtime",
+        "order": 2,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align: center;\">\n    <div id=\"runtimeBox\"\n        style=\"font-size: 22px; font-weight: bold; padding: 12px; border-radius: 10px; background:#333; color:white;\">\n        {{msg.payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope){\n    scope.$watch('msg', function(msg){\n        if(!msg) return;\n        let box = document.getElementById(\"runtimeBox\");\n        box.textContent = msg.payload;\n    });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 440,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1e21c83b8af098a8",
+        "type": "ui_button",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "group": "8b4eec86d8d4748c",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "label": "🔄 Reset Runtime",
+        "tooltip": "",
+        "color": "BLACK",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "RESET",
+        "payloadType": "str",
+        "topic": "robot/reset_runtime",
+        "topicType": "msg",
+        "x": 830,
+        "y": 240,
+        "wires": [
+            [
+                "025e40469030e54d"
+            ]
+        ]
+    },
+    {
+        "id": "d25dfc6064f36e78",
+        "type": "mqtt in",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/tilted",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ab3d235277be7ab",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 360,
+        "wires": [
+            [
+                "6f11cb012151041c"
+            ]
+        ]
+    },
+    {
+        "id": "6f11cb012151041c",
+        "type": "function",
+        "z": "8b43cc276c50540b",
+        "name": "tiltStatus",
+        "func": "// Debug for TILT (not cliff)\nlet y = String(msg.payload).trim();\n\nnode.warn(\"Received Tilt Value: \" + y);\n\nif (y === \"1\" || y.toLowerCase() === \"true\" || y === \"HIGH\"){\n    msg.payload = \"⚠️ Robot Tilted!\";\n    msg.color = \"red\";\n} else {\n    msg.payload = \"Upright\";\n    msg.color = \"green\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 360,
+        "wires": [
+            [
+                "389de752f742969b",
+                "095c0accac61a231"
+            ]
+        ]
+    },
+    {
+        "id": "389de752f742969b",
+        "type": "ui_template",
+        "z": "8b43cc276c50540b",
+        "group": "12fd058378c3e8fe",
+        "name": "Tilt Status",
+        "order": 3,
+        "width": 6,
+        "height": 2,
+        "format": "<div style=\"padding: 10px; text-align: center;\">\n    <div id=\"tiltStatus\" style=\"font-size: 22px; font-weight: bold; padding: 15px; border-radius: 10px; color:white;\">\n        {{msg.payload}}\n    </div>\n</div>\n\n<script>\n    (function(scope) {\n    scope.$watch('msg', function(msg) {\n        if (!msg) return;\n\n        let box = document.getElementById(\"tiltStatus\");\n\n        // ⭐ 用 payload 判断，不用 msg.color （不会丢失）\n        if (msg.payload === \"⚠️ Robot Tilted!\") {\n            box.style.backgroundColor = \"red\";\n        } else {\n            box.style.backgroundColor = \"green\";\n        }\n    });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 540,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "095c0accac61a231",
+        "type": "ui_text",
+        "z": "8b43cc276c50540b",
+        "group": "12fd058378c3e8fe",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Tilt Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 540,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "f5d4c761220d354e",
+        "type": "debug",
+        "z": "8b43cc276c50540b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "025e40469030e54d",
+        "type": "mqtt out",
+        "z": "8b43cc276c50540b",
+        "name": "",
+        "topic": "robot/reset_runtime",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ab3d235277be7ab",
+        "x": 1050,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "534bf6d3c0eef942",
+        "type": "ui_spacer",
+        "z": "8b43cc276c50540b",
+        "name": "spacer",
+        "group": "",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "9ab3d235277be7ab",
+        "type": "mqtt-broker",
+        "name": "？？",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "c2195a43c2287b78",
+        "type": "ui_group",
+        "name": "Monitoring Brightness",
+        "tab": "f94ffe4df18a7197",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "59319c591dd16b41",
+        "type": "ui_group",
+        "name": "Monitoring Distance",
+        "tab": "f94ffe4df18a7197",
+        "order": 5,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "12fd058378c3e8fe",
+        "type": "ui_group",
+        "name": "Safety Alerts",
+        "tab": "f94ffe4df18a7197",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": "tiltBox"
+    },
+    {
+        "id": "8b4eec86d8d4748c",
+        "type": "ui_group",
+        "name": "Control Panel",
+        "tab": "f94ffe4df18a7197",
+        "order": 6,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "47c8903b20527668",
+        "type": "ui_group",
+        "name": "System Status",
+        "tab": "f94ffe4df18a7197",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "808c3b7f06c0a6e9",
+        "type": "ui_group",
+        "name": "Actuator Status",
+        "tab": "f94ffe4df18a7197",
+        "order": 4,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f94ffe4df18a7197",
+        "type": "ui_tab",
+        "name": "Robot Dashboard",
+        "icon": "fa-robot",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "b6f160ca45ea8821",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
